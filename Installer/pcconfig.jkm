@@ -1,0 +1,11 @@
+﻿#Konfigurationsdatei für PhilleConnect Drive
+#Syntax: key=value -> KEINE LEERZEICHEN!
+#Konfigurationsvariablen:
+#server: Vollständige URL zum PhilleConnect Webserver
+#global: Globales Passwort
+#allowOffline: Rechner ohne Serververbindung freigeben (1) oder herunterfahren (0)
+#badNetworkReconnect: Anzahl der Verbindungsversuche (1 pro Sekunde).
+server=172.16.0.59
+global=8Z2I70l4qsHz6Kb8kU8Ir8iC54o72i
+allowOffline=1
+badNetworkReconnect=30
