@@ -90,30 +90,26 @@ Root: "HKCU"; \
     Components: teacher
 
 Root: "HKLM"; \
-    Subkey: "Software\Microsoft\Windows\CurrentVersion\Explorer"; \
-    ValueType: dword; \
-    ValueName: "AsyncRunOnce"; \
-    ValueData: "0"; \
-    Flags: createvalueifdoesntexist; \
-    MinVersion: 0, 10.0
-
-Root: "HKLM"; \
     Subkey: "Software\Microsoft\Windows\CurrentVersion\Policies\System"; \
     ValueType: dword; \
     ValueName: "DelayedDesktopSwitchTimeout"; \
     ValueData: "3"; \
-    Flags: createvalueifdoesntexist;
+    Flags: createvalueifdoesntexist
 
 [Run]
 Filename: "{app}\createScheduledTask.bat"; Flags: runascurrentuser
-Filename: "{app}\createSystemclientTask.bat"; Flags: runascurrentuser; \
+Filename: "{app}\createSystemclientTask.bat"; \
+    Flags: runascurrentuser; \
     Components: student
-Filename: "{src}\copyConfigFile.bat";
-Filename: "{app}\setupFirewall.bat"; Flags: runascurrentuser; \
+Filename: "{src}\copyConfigFile.bat"
+Filename: "{app}\setupFirewall.bat"; \
+    Flags: runascurrentuser; \
     Components: student
 Filename: "{tmp}\ClientRegistrationTool.exe"; \
     Flags: nowait postinstall skipifsilent; \
     Description: "Client registrieren"
+Filename: "{app}\registryWin10.bat"; Flags: runascurrentuser; \
+    MinVersion: 0,10.0.10240
 
 [Icons]
 Name: "{group}\PhilleConnect Drive"; \
