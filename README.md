@@ -24,3 +24,6 @@ You can configure these values:
 
 # Other
 The installer is built with 'InnoScript Setup', to compile your own installer you first have to download the InnoScript Compiler, then compile the .iss file.
+
+# Source code
+The source code of all PhilleConnect client applications is a part of a project for the Abitur 2018. Therefore, I'll publish it on GitHub in may 2018 when the tests are over.
