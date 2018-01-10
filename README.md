@@ -12,7 +12,7 @@ Windows 10 (64-Bit)
 To use this programs you need a working PhilleConnect Server.
 
 # Configuration
-The Installer comes with a file called 'pcconfig.jkm'. This is a text file used to configure the client machine. It's recommended to edit this file before you install PhilleConnect, otherwise you have to edit the file on every single machine.  
+The Installer comes with a file called 'pcconfig.jkm'. This is a text file used to configure the client machine. It's recommended to edit this file before you install PhilleConnect, otherwise you have to edit the file on every single machine. There's also a tool to auto-generate this file on the admin-console of your server.
 You can configure these values:  
 
 | name                 | values    | description |
