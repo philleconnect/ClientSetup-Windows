@@ -4,9 +4,9 @@ This installer will setup your Windows machine to use it as a Client for PhilleC
 
 # Compatiblity
 PhilleConnect Client for Windows is currently compatible with:  
-Windows 7 (64-Bit)  
+Windows 7 SP1 (64-Bit)  
 Windows 8.1 (64-Bit)  
-Windows 10 (64-Bit)  
+Windows 10 (64-Bit) (Tested with 1709)
 
 # Requirements
 To use this programs you need a working PhilleConnect Server.
