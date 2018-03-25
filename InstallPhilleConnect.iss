@@ -74,27 +74,27 @@ Source: "Scripts\*"; \
 
 [Registry]
 Root: "HKCU"; \
-    Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
-    ValueType: string; \
-    ValueName: "PhilleConnectDrive"; \
-    ValueData: "C:\Program Files\PhilleConnect\PhilleConnectDrive.exe"; \
-    Flags: createvalueifdoesntexist; \
-    Components: student smallTeacher
+  Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
+  ValueType: string; \
+  ValueName: "PhilleConnectDrive"; \
+  ValueData: "C:\Program Files\PhilleConnect\PhilleConnectDrive.exe"; \
+  Flags: createvalueifdoesntexist; \
+  Components: student smallTeacher
 
 Root: "HKCU"; \
-    Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
-    ValueType: string; \
-    ValueName: "PhilleConnectTeacher"; \
-    ValueData: "C:\Program Files\PhilleConnect\PhilleConnectTeacher.exe"; \
-    Flags: createvalueifdoesntexist; \
-    Components: teacher
+  Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
+  ValueType: string; \
+  ValueName: "PhilleConnectTeacher"; \
+  ValueData: "C:\Program Files\PhilleConnect\PhilleConnectTeacher.exe"; \
+  Flags: createvalueifdoesntexist; \
+  Components: teacher
 
 Root: "HKLM"; \
-    Subkey: "Software\Microsoft\Windows\CurrentVersion\Policies\System"; \
-    ValueType: dword; \
-    ValueName: "DelayedDesktopSwitchTimeout"; \
-    ValueData: "3"; \
-    Flags: createvalueifdoesntexist
+  Subkey: "Software\Microsoft\Windows\CurrentVersion\Policies\System"; \
+  ValueType: dword; \
+  ValueName: "DelayedDesktopSwitchTimeout"; \
+  ValueData: "3"; \
+  Flags: createvalueifdoesntexist
 
 [Run]
 Filename: "{app}\createScheduledTask.bat"; Flags: runascurrentuser
@@ -107,8 +107,12 @@ Filename: "{app}\setupFirewall.bat"; \
     Components: student
 Filename: "{tmp}\ClientRegistrationTool.exe"; \
     Flags: nowait postinstall skipifsilent; \
-    Description: "Client registrieren"
-Filename: "{app}\registryWin10.bat"; Flags: runascurrentuser; \
+    Description: "Client registrieren und neu starten"
+Filename: "{app}\reboot.bat"; \
+    Flags: nowait postinstall unchecked; \
+    Description: "Client bereits registriert, jetzt neu starten"
+Filename: "{app}\registryWin10.bat"; \
+    Flags: runascurrentuser; \
     MinVersion: 0,10.0.10240
 
 [Icons]
@@ -129,3 +133,48 @@ Name: "{userdesktop}\PhilleConnect Teacher"; \
   Filename: "{app}\PhilleConnectTeacher.exe"; WorkingDir: "{app}"; \
   Comment: "Mit Home-Laufwerk verbinden..."; Tasks: desktopicon; \
   Components: teacher
+
+[Code]
+var
+  RunListLastChecked: Integer;
+
+procedure RunListClickCheck(Sender: TObject);
+var
+  I: Integer;
+  Checked: Integer;
+begin
+  { Find if some other checkbox got checked }
+  Checked := -1;
+  for I := 0 to WizardForm.RunList.Items.Count - 1 do
+  begin
+    if WizardForm.RunList.Checked[I] and (I <> RunListLastChecked) then
+    begin
+      Checked := I;
+    end;
+  end;
+
+  { If it was, uncheck the previously checked box and remember the new one }
+  if Checked >= 0 then
+  begin
+    if RunListLastChecked >= 0 then
+    begin
+      WizardForm.RunList.Checked[RunListLastChecked] := False;
+    end;
+
+    RunListLastChecked := Checked;
+  end;
+
+  { Or if the previously checked box got unchecked, forget it. }
+  { (This is not really necessary, it's just to clean the things up) }
+  if (RunListLastChecked >= 0) and
+     (not WizardForm.RunList.Checked[RunListLastChecked]) then
+  begin
+    RunListLastChecked := -1;
+  end;
+end;
+
+procedure InitializeWizard();
+begin
+  WizardForm.RunList.OnClickCheck := @RunListClickCheck;
+  RunListLastChecked := 0;
+end;
