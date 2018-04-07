@@ -20,7 +20,7 @@ if "%EINGABE%"=="DELETE" (
 )
 :DOIT
 echo PhilleConnect-Programme beenden...
-taskkill /F /IM DKMP.exe /IM systemclient.exe
+taskkill /F /IM DKMP.exe /IM systemclient.exe /IM winvnc.exe
 taskkill /F /IM PhilleConnectStart.exe
 taskkill /F /IM PhilleConnectDrive.exe
 taskkill /F /IM PhilleConnectTeacher.exe
