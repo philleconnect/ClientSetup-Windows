@@ -2,9 +2,9 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PhilleConnect"
-#define MyAppVersion "1.2"
-#define MyAppPublisher "Johannes Kreutz"
-#define MyAppURL "https://www.jkm-marburg.de/"
+#define MyAppVersion "1.2.1"
+#define MyAppPublisher "Johannes Kreutz and Dirk Winkel"
+#define MyAppURL "https://www.philleconnect.org/"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
