@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "PhilleConnect"
-#define MyAppVersion "1.2.1"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "Johannes Kreutz and Dirk Winkel"
 #define MyAppURL "https://www.philleconnect.org/"
 
@@ -19,8 +19,8 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
-DisableDirPage=yes
-DefaultGroupName={#MyAppName}
+DisableDirPage=yes                      
+DefaultGroupName={#MyAppName}                                               
 DisableProgramGroupPage=yes
 OutputDir=Installer
 OutputBaseFilename=PhilleConnectSetup
@@ -73,7 +73,7 @@ Source: "Scripts\*"; \
    deleteafterinstall
 
 [Registry]
-Root: "HKCU"; \
+Root: "HKLM"; \
   Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
   ValueType: string; \
   ValueName: "PhilleConnectDrive"; \
@@ -81,7 +81,7 @@ Root: "HKCU"; \
   Flags: createvalueifdoesntexist; \
   Components: student smallTeacher
 
-Root: "HKCU"; \
+Root: "HKLM"; \
   Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
   ValueType: string; \
   ValueName: "PhilleConnectTeacher"; \
@@ -96,12 +96,19 @@ Root: "HKLM"; \
   ValueData: "3"; \
   Flags: createvalueifdoesntexist
 
+Root: "HKLM"; \
+  Subkey: "Software\Microsoft\Windows\CurrentVersion\Policies\System"; \
+  ValueType: dword; \
+  ValueName: "RunLogonScriptSync"; \
+  ValueData: "1"; \
+  Flags: createvalueifdoesntexist
+
 [Run]
-Filename: "{app}\createScheduledTask.bat"; Flags: runascurrentuser
 Filename: "{app}\createSystemclientTask.bat"; \
-    Flags: runascurrentuser; \
-    Components: student
+    Flags: runascurrentuser
 Filename: "{src}\copyConfigFile.bat"
+Filename: "{app}\gpedit.bat"; \
+    Flags: runascurrentuser
 Filename: "{app}\setupFirewall.bat"; \
     Flags: runascurrentuser; \
     Components: student
@@ -111,16 +118,13 @@ Filename: "{tmp}\ClientRegistrationTool.exe"; \
 Filename: "{app}\reboot.bat"; \
     Flags: nowait postinstall unchecked; \
     Description: "Client bereits registriert, jetzt neu starten"
-Filename: "{app}\registryWin10.bat"; \
-    Flags: runascurrentuser; \
-    MinVersion: 0,10.0.10240
 
 [Icons]
 Name: "{group}\PhilleConnect Drive"; \
   Filename: "{app}\PhilleConnectDrive.exe"; WorkingDir: "{app}"; \
   Comment: "Mit Home-Laufwerk verbinden..."; Tasks: startmenuicon; \
   Components: student smallTeacher
-Name: "{userdesktop}\PhilleConnect Drive"; \
+Name: "{commondesktop}\PhilleConnect Drive"; \
   Filename: "{app}\PhilleConnectDrive.exe"; WorkingDir: "{app}"; \
   Comment: "Mit Home-Laufwerk verbinden..."; Tasks: desktopicon; \
   Components: student smallTeacher
@@ -129,7 +133,7 @@ Name: "{group}\PhilleConnect Teacher"; \
   Filename: "{app}\PhilleConnectTeacher.exe"; WorkingDir: "{app}"; \
   Comment: "Mit Home-Laufwerk verbinden..."; Tasks: startmenuicon; \
   Components: teacher
-Name: "{userdesktop}\PhilleConnect Teacher"; \
+Name: "{commondesktop}\PhilleConnect Teacher"; \
   Filename: "{app}\PhilleConnectTeacher.exe"; WorkingDir: "{app}"; \
   Comment: "Mit Home-Laufwerk verbinden..."; Tasks: desktopicon; \
   Components: teacher

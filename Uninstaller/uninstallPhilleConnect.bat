@@ -20,39 +20,40 @@ if "%EINGABE%"=="DELETE" (
 )
 :DOIT
 echo PhilleConnect-Programme beenden...
-taskkill /F /IM DKMP.exe /IM systemclient.exe /IM winvnc.exe
+taskkill /F /IM dkmp.exe /IM systemclient.exe /IM winvnc.exe
 taskkill /F /IM PhilleConnectStart.exe
 taskkill /F /IM PhilleConnectDrive.exe
 taskkill /F /IM PhilleConnectTeacher.exe
-taskkill /F /IM RunOnceCreator.exe
 echo Firewall-Regeln werden entfernt...
 netsh advfirewall firewall delete rule profile=any name="systemclient"
 netsh advfirewall firewall delete rule profile=any name="VNC Server"
 echo Geplante Aufgaben werden entfernt...
 schtasks /Delete /TN "Systemclient" /f
-schtasks /Delete /TN "RunOnceCreator" /f
+schtasks /Delete /TN "SystemclientUser" /f
 echo Registry-Eintraege werden entfernt...
 if "%version%" == "10.0" (
 	reg delete HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer /v AsyncRunOnce /f
 )
-reg delete HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v PhilleConnectDrive /f
-reg delete HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v PhilleConnectTeacher /f
+reg delete HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v PhilleConnectDrive /f
+reg delete HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v PhilleConnectTeacher /f
 reg delete HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v DelayedDesktopSwitchTimeout /f
+reg delete HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v RunLogonScriptSync /f
 echo PhilleConnect-Dateien werden entfernt...
 set drive="PhilleConnect Drive.lnk"
 set teacher="PhilleConnect Teacher.lnk"
 if exist "C:\Program Files\PhilleConnect" (
 	RMDIR /S /Q "C:\Program Files\PhilleConnect"
 )
-if exist %USERPROFILE%\Desktop\%drive% (
-	DEL /S /Q %USERPROFILE%\Desktop\%drive%
+if exist C:\Users\Public\Desktop\%drive% (
+	DEL /S /Q C:\Users\Public\Desktop\%drive%
 )
-if exist %USERPROFILE%\Desktop\%teacher% (
-	DEL /S /Q %USERPROFILE%\Desktop\%teacher%
+if exist C:\Users\Public\Desktop\%teacher% (
+	DEL /S /Q C:\Users\Public\Desktop\%teacher%
 )
 if exist "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\PhilleConnect" (
 	RMDIR /S /Q "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\PhilleConnect"
 )
+%~dp0gpdelete.exe
 echo PhilleConnect wurde erfolgreich deinstalliert.
 :END
 PAUSE
