@@ -1,3 +1,5 @@
+__Archived: Not actively maintained anymore!__
+
 # ClientSetup-Windows
 PhilleConnect Client installer for Windows  
 This installer will setup your Windows machine to use it as a Client for PhilleConnect.
